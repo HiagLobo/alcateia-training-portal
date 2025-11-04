@@ -21,3 +21,9 @@
 - ✅ API tRPC com endpoints: data.getTrainingPaths, data.saveTrainingPaths, data.getRanking, data.saveRanking
 - ✅ API Adapter JavaScript que intercepta localStorage e sincroniza com API
 - ✅ Portal HTML integrado com /api-adapter.js
+
+
+## Bugs Reportados
+
+- [x] Portal HTML não carrega - página em branco (RESOLVIDO: era problema de sessão)
+- [x] Investigar por que o conteúdo não aparece (RESOLVIDO: portal funciona normalmente)
