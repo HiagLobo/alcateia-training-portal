@@ -5,8 +5,8 @@
 - [x] Criar schema do banco de dados com tabelas para usuários, trilhas, progresso e ranking
 - [x] Implementar API REST para persistência de dados (GET/POST para cada tipo de dado)
 - [x] Adaptar frontend HTML para usar API em vez de localStorage
-- [ ] Testar persistência de alterações do admin
-- [ ] Validar funcionamento em produção (Vercel/Netlify)
+- [x] Testar persistência de alterações do admin
+- [x] Validar funcionamento em produção (Vercel/Netlify)
 
 ## Dados a Persistir
 
