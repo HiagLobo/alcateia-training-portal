@@ -2,9 +2,10 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
+import { z } from "zod";
+import { getAllTrainingPaths, upsertTrainingPaths, getAllRanking, upsertRanking } from "./db";
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -17,12 +18,72 @@ export const appRouter = router({
     }),
   }),
 
-  // TODO: add feature routers here, e.g.
-  // todo: router({
-  //   list: protectedProcedure.query(({ ctx }) =>
-  //     db.getUserTodos(ctx.user.id)
-  //   ),
-  // }),
+  // Data persistence endpoints for admin panel
+  data: router({
+    // Training paths endpoints
+    getTrainingPaths: publicProcedure.query(async () => {
+      const paths = await getAllTrainingPaths();
+      return paths.map(p => ({
+        ...p,
+        content: p.content ? JSON.parse(p.content) : null,
+      }));
+    }),
+
+    saveTrainingPaths: publicProcedure
+      .input(z.array(z.object({
+        id: z.number().optional(),
+        name: z.string(),
+        description: z.string().optional(),
+        content: z.any().optional(),
+        icon: z.string().optional(),
+        color: z.string().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        const pathsToSave = input.map(p => ({
+          id: p.id,
+          name: p.name,
+          description: p.description || null,
+          content: p.content ? JSON.stringify(p.content) : null,
+          icon: p.icon || null,
+          color: p.color || null,
+        }));
+        
+        await upsertTrainingPaths(pathsToSave);
+        return { success: true };
+      }),
+
+    // Ranking endpoints
+    getRanking: publicProcedure.query(async () => {
+      const rankingData = await getAllRanking();
+      return rankingData.map(r => ({
+        ...r,
+        data: r.data ? JSON.parse(r.data) : null,
+      }));
+    }),
+
+    saveRanking: publicProcedure
+      .input(z.array(z.object({
+        id: z.number().optional(),
+        name: z.string(),
+        position: z.number().optional(),
+        photo: z.string().optional(),
+        description: z.string().optional(),
+        data: z.any().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        const rankingToSave = input.map(r => ({
+          id: r.id,
+          name: r.name,
+          position: r.position || null,
+          photo: r.photo || null,
+          description: r.description || null,
+          data: r.data ? JSON.stringify(r.data) : null,
+        }));
+        
+        await upsertRanking(rankingToSave);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
