@@ -23,7 +23,12 @@
 - ✅ Portal HTML integrado com /api-adapter.js
 
 
-## Bugs Reportados
+## Deploy Pronto para Netlify
 
-- [x] Portal HTML não carrega - página em branco (RESOLVIDO: era problema de sessão)
-- [x] Investigar por que o conteúdo não aparece (RESOLVIDO: portal funciona normalmente)
+- [x] Arquivo netlify.toml criado e configurado
+- [x] .env.production com variáveis do Railway
+- [x] Build testado e funcionando
+- [x] Guia DEPLOY_NETLIFY_FINAL.md criado
+- [ ] Fazer push para GitHub (próximo passo do usuário)
+- [ ] Conectar ao Netlify (próximo passo do usuário)
+- [ ] Deploy completo (próximo passo do usuário)
