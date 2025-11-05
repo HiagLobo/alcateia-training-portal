@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm install && pnpm build"
+  command = "pnpm install && pnpm exec vite build --root client && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist"
   publish = "client/dist"
 
 [[redirects]]
